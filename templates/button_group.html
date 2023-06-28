@@ -1,0 +1,5 @@
+<div class="btn-group {{extra_classes}}" role="group" aria-label="Btn group">
+    {% for button in buttons %}
+        <button type="button" class="btn {{button.type}}">{{ button.text }}</button>
+    {% endfor %}
+</div>
