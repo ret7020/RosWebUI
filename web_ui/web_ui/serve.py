@@ -1,5 +1,5 @@
 from flask import Flask
-from items import Page
+from web_ui.web_ui.items import Page
 
 class App:
     def __init__(self) -> None:

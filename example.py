@@ -1,5 +1,5 @@
-from serve import App
-from items import Page, ButtonsGroup, Button, Link
+from web_ui.web_ui.serve import App
+from web_ui.web_ui.items import Page, ButtonsGroup, Button, Link
 
 app = App()
 
