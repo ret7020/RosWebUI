@@ -1,10 +1,5 @@
-from flask import Flask, render_template
+from flask import render_template
 from typing import List
-
-class PageGenerator:
-    def __init__():
-        pass
-
 
 class Button:
     def __init__(self, text: str, type_: str="primary", style: str="", href: str="") -> None:
@@ -56,7 +51,7 @@ class ButtonsGroup:
         return self.render()
 
 class Page:
-    def __init__(self, path: str, title: str) -> None:
+    def __init__(self, title: str, path: str = "/") -> None:
         self.path = path
         self.title = title
         self.items = []
@@ -69,30 +64,6 @@ class Page:
 
     def render(self):
         if len(self.items) > 0:
-            self.html = "\n".join([item.render() for item in self.items])
+            content_html = "\n".join([item.render() for item in self.items])
+            self.html = render_template("base.html", content=content_html)
         return self.html
-    
-class WebUi:
-    def __init__(self) -> None:
-        self.pages = []
-
-    def add_page(self, page: Page):
-        self.pages.append(page)
-
-app = Flask(__name__)
-
-@app.route("/")
-def home():
-    page = Page("/", "Abb")
-    page.add(
-        ButtonsGroup([
-            Button("Test"),
-            Button("Test"),
-            Button("Test", "secondary"),
-            Link("Link")
-        ]),
-    )
-    return render_template("base.html", title=page.title, content=page.render())
-
-if __name__ == "__main__":
-    app.run(debug=True)
