@@ -11,7 +11,8 @@ import threading
 class RosWebUi(Node):
     def __init__(self):
         super().__init__('webui')
-        self.app = App()
+        self.get_logger().info(f"{self}")
+        self.app = App(self)
         ui_build(self.app)
 
         threading.Thread(target=self.app.start).start()

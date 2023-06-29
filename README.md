@@ -1,10 +1,10 @@
 # Planned features
 ## Buttons actions
 
-1. Toggle topic; send 0 || 1 to topic
-2. Send std_messages/Int* to topic (from input field)
-3. Send std_messages/String to topic (from input field)
-4. Send event to topic
+- [ ] Toggle topic; send 0 || 1 to topic
+- [ ] Send std_messages/Int* to topic (from input field)
+- [x] Send std_messages/String to topic (from input field)
+- [x] Send event to topic
 
 ## Fetch Api interval based upd
 1. Topic published value

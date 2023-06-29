@@ -2,18 +2,21 @@ from flask import render_template
 from typing import List
 
 class ClickHandler:
-    def __init__(self, action: str="none", topic: str="none", activate_message: str = "1") -> None:
+    def __init__(self, action: str="none", topic: str="none", activate_message: str = "1", input_name: str = "") -> None:
         self.action = action
         self.topic = topic
         self.activate_message = activate_message
+        self.input_name = input_name
 
     def html(self) -> str:
         if self.action == "event":
             return f"send_to_topic('{self.topic}', '{self.activate_message}')"
+        elif self.action == "input":
+            return f"send_from_input('{self.topic}', '{self.input_name}')"
 
 
 class Button:
-    def __init__(self, text: str, type_: str="primary", action: str="none", topic: str="none", activate_message: str = "1", style: str="", href: str="") -> None:
+    def __init__(self, text: str, type_: str="primary", action: str="none", topic: str="none", activate_message: str="1", input_name: str="", style: str="", href: str="") -> None:
         self.type = type_
         self.text = text
         self.style = style
@@ -21,7 +24,7 @@ class Button:
 
         # Click handler
         if action != "none" and topic != "none":
-            self.click_handler = ClickHandler(action, topic, activate_message)
+            self.click_handler = ClickHandler(action, topic, activate_message, input_name)
         else:
             self.click_handler = None
         
@@ -34,7 +37,7 @@ class Button:
     def render(self):
         return render_template("button.html", button=self.json())
     
-    def json(self):
+    def json(self) -> dict:
         return {
             "type": self.bs5_type,
             "text": self.text,
@@ -61,14 +64,32 @@ class ButtonsGroup:
         # Prepare for render
         self.bs5_classes = ButtonsGroup.SIZE_MAP[self.size]
 
-    def render(self):
+    def render(self) -> str:
         return render_template("button_group.html", buttons=[btn.json() for btn in self.buttons], extra_classes=self.bs5_classes)
     
-    def json(self):
+    def json(self) -> dict:
         pass
 
     def __str__(self) -> str:
         return self.render()
+    
+class Input:
+    def __init__(self, name: str, type_: str="text", placeholder: str="", start_value: str="") -> None:
+        self.name = name
+        self.type = type_
+        self.placeholder = placeholder
+        self.start_value = start_value
+
+    def json(self) -> dict:
+        return {
+            "name": self.name,
+            "placeholder": self.placeholder,
+            "start_value": self.start_value,
+            "type": self.type
+        } 
+
+    def render(self):
+        return render_template("input.html", input=self.json())
 
 class Page:
     def __init__(self, title: str, path: str = "/") -> None:

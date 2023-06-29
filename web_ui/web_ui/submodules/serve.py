@@ -1,21 +1,25 @@
 from flask import Flask, request
 from .items import Page
-import logging
+from std_msgs.msg import String
 
 class App:
-    def __init__(self) -> None:
+    def __init__(self, node) -> None:
         self.flask_app = Flask(__name__, template_folder="../templates", static_folder="../static")
         self.pages = []
+        self.node = node
 
         @self.flask_app.route("/api/topic/pub", methods=['POST'])
         def __api_topic_pub():
-            data = request.json()
-            logging.error(f"{data}")
-            return ""
+            return self.api_topic_pub(request.json)
 
     
-    def api_topic_pub(self):
-        pass
+    def api_topic_pub(self, data):
+        send = String()
+        send.data = data["value"]
+        temp_publsiher = self.node.create_publisher(String, data["topic"], 1)
+        temp_publsiher.publish(send)
+        self.node.destroy_subscription(temp_publsiher)
+        return ""
 
     def add(self, page: Page) -> None:
         '''
