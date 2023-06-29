@@ -12,8 +12,9 @@ def build(app: object) -> None:
         Input("send_string_input", "text", "123", "Def value"),
         Button("Send from input above", action="input", input_name="send_string_input", topic="/test_topic"),
         Button("Send activate event to /test_topic with default value 1", action="event", topic="/test_topic"), # Send event to topic with default value = "1" (activate_message)
-        Button("Toggle btn"),
-        Button("Outline style btn", style="outline")
+        Button("Changed type btn", type_="success"),
+        Button("Outline style btn", style="outline"),
+        Button(action="toggle", topic="/test_topic")
     )
 
 

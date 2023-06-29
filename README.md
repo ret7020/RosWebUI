@@ -1,10 +1,13 @@
 # Planned features
-## Buttons actions
+## Buttons ROS actions
 
-- [ ] Toggle topic; send 0 || 1 to topic
+- [x] Toggle topic; send 0 || 1 to topic
 - [ ] Send std_messages/Int* to topic (from input field)
 - [x] Send std_messages/String to topic (from input field)
 - [x] Send event to topic
+
+## Buttons UI actions
+- [ ] Open modals
 
 ## Fetch Api interval based upd
 1. Topic published value
