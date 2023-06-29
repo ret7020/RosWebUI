@@ -1,11 +1,12 @@
 from setuptools import setup
 
 package_name = 'web_ui'
-
+submodules = "web_ui/submodules"
 setup(
     name=package_name,
-    version='0.0.0',
-    packages=[package_name],
+    version='0.0.1',
+    packages=[package_name, submodules],
+    package_data={package_name: ['templates/*.html', 'static/ros_wrapper.js', 'static/api.js']},
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
@@ -20,7 +21,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'webui = web_ui.webui:main'
+            'web_ui = web_ui.webui:main'
         ],
     },
 )
