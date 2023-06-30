@@ -8,6 +8,7 @@
 
 ## Buttons UI actions
 - [ ] Open modals
+- [ ] Bootstrap icons
 
 ## Fetch Api interval based upd
 1. Topic published value

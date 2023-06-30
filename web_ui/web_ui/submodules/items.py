@@ -85,7 +85,7 @@ class ButtonsGroup:
 
     def __str__(self) -> str:
         return self.render()
-    
+
 class Input:
     def __init__(self, name: str, type_: str="text", placeholder: str="", start_value: str="") -> None:
         self.name = name

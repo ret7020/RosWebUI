@@ -1,12 +1,14 @@
 from .items import Page, Button, Input
+from std_msgs.msg import String
 
 
-def build(app: object) -> None:
+def build(app: object, supervisor: object) -> None:
     '''
     Don't change this function name
     It will call from web_ui node on ui global build(render) 
     # TODO Write a doc page in wiki about app build/render stages
     '''
+    # Building simple btn's layout example
     index_page = Page("Index page", "/")
     index_page.add(
         Input("send_string_input", "text", "123", "Def value"),
@@ -16,6 +18,13 @@ def build(app: object) -> None:
         Button("Outline style btn", style="outline"),
         Button(action="toggle", topic="/test_topic")
     )
+
+
+    # Interacting with supervisor
+    supervisor.add([String, "/pub_rnd_str"])
+
+
+
 
 
     # Add pages
