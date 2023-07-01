@@ -11,8 +11,8 @@
 - [ ] Bootstrap icons
 
 ## Fetch Api interval based upd
-1. Topic published value
+- [ ] Topic published value
 
 ## Web Socket real - time info update
 
-1. Topic data
+- [ ] Topic data
