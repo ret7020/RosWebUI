@@ -1,4 +1,15 @@
 # Planned features
+Items planned:
+- [] Buttons
+- [] Inputs
+- [] Forms
+- [] Links
+- [] Heading
+- [] Text (span)
+- [] Table
+- [] Image
+- [] Modals
+
 ## Buttons ROS actions
 
 - [x] Toggle topic; send 0 || 1 to topic
@@ -15,4 +26,5 @@
 
 ## Web Socket real - time info update
 
-1. Topic data
+- [x] Topic data
+- [x] - Assign topic data to simple text item

@@ -8,7 +8,9 @@ import threading
 import random
 import string
 import time
+import json
 from flask_sock import Sock
+import simple_websocket
 
 # from web_ui.web_ui.items import Page, ButtonsGroup, Button, Link
 
@@ -24,9 +26,11 @@ class RosWebUi(Node):
         
         @self.sock.route("/ws")
         def init_connection(sock):
-            self.get_logger().info("Socket connected")
+            self.get_logger().info("New websocket client connected")
             self.connected_clients.append(sock)
-                
+            while True:
+                data = sock.receive() # Read data from socket
+                        
         ui_build(self.app, self.supervisor)
 
         threading.Thread(target=self.app.start).start()
@@ -43,9 +47,6 @@ class RosWebUi(Node):
 
         self.string_pub = self.create_publisher(String, 'pub_rnd_str', 1)
         self.timer = self.create_timer(0.5, self.timer_callback)
-        # while True:
-        #     self.socketio.emit("sd", "Dermo")
-        #     time.sleep(1)
 
     def timer_callback(self):
         msg = String()
@@ -56,13 +57,18 @@ class RosWebUi(Node):
     def listener_callback(self, data):
         self.get_logger().info(f"{data.data}")
 
-    def send_data_to_ws_clients(self, data):
+    def send_data_to_ws_clients(self, data, topic, item_name):
         for client in self.connected_clients:
-            client.send(data)
+            try:
+                client.send(json.dumps({
+                    "data": data,
+                    "topic": topic,
+                    "item": item_name
+                }))
+            except simple_websocket.ws.ConnectionClosed:
+                pass
             self.get_logger().info(f"Pending to send data: {data}")
 
-    
-        
         
 def main(args=None):
     rclpy.init(args=args)

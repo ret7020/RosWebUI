@@ -1,7 +1,7 @@
 from flask import render_template
 from typing import List
-import random
-import string
+from .utils import random_string
+
 
 class ClickHandler:
     def __init__(self, action: str="none", topic: str="none", activate_message: str = "1", input_name: str = "", toggle_display: List[str]=["ON", "OFF"], toggle_values: List[str]=["1", "0"]) -> None:
@@ -12,7 +12,7 @@ class ClickHandler:
         self.toggle_display = toggle_display
         self.toggle_values = toggle_values
 
-    def html(self) -> str:
+    def render(self) -> str:
         if self.action == "event":
             return f"send_to_topic(this.id, '{self.topic}', '{self.activate_message}')"
         elif self.action == "input":
@@ -28,7 +28,7 @@ class Button:
         self.style = style
         self.name = name
         if not self.name:
-            self.name = f"btn_{''.join(random.choice(string.ascii_letters) for i in range(5))}"
+            self.name = f"btn_{random_string(5)}"
 
 
         # Click handler
@@ -46,16 +46,17 @@ class Button:
         if self.style: bs5_prefix = f"{bs5_prefix}{style}-"
         self.bs5_type = f"{bs5_prefix}{self.type}"
 
-    def render(self):
-        return render_template("button.html", button=self.json())
-    
     def json(self) -> dict:
         return {
             "type": self.bs5_type,
             "text": self.text,
-            "click_handler": self.click_handler.html() if self.click_handler else "",
+            "click_handler": self.click_handler.render() if self.click_handler else "",
             "name": self.name
         }
+    
+    def render(self):
+        return render_template("button.html", button=self.json())
+    
     
     def __str__(self) -> str:
         return self.render()
@@ -77,11 +78,12 @@ class ButtonsGroup:
         # Prepare for render
         self.bs5_classes = ButtonsGroup.SIZE_MAP[self.size]
 
+    def json(self) -> dict:
+        pass
+
     def render(self) -> str:
         return render_template("button_group.html", buttons=[btn.json() for btn in self.buttons], extra_classes=self.bs5_classes)
     
-    def json(self) -> dict:
-        pass
 
     def __str__(self) -> str:
         return self.render()
@@ -103,6 +105,29 @@ class Input:
 
     def render(self):
         return render_template("input.html", input=self.json())
+
+
+class Text:
+    '''
+    Simple text item; Maybe it will be deleted
+    '''
+    def __init__(self, text: str, name: str=None) -> None:
+        self.text = text
+        self.name = name
+
+        # Generate random name; for passing to html id
+        if not self.name:
+            self.name = random_string(5)
+
+    
+    def json(self) -> dict:
+        return {
+            "name": self.name,
+            "text": self.text
+        }
+
+    def render(self) -> str:
+        return render_template("text.html", text=self.json())
 
 class Page:
     def __init__(self, title: str, path: str = "/") -> None:
