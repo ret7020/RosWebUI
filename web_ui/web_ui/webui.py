@@ -67,12 +67,11 @@ class RosWebUi(Node):
                 }))
             except simple_websocket.ws.ConnectionClosed:
                 pass
-            self.get_logger().info(f"Pending to send data: {data}")
 
         
 def main(args=None):
     rclpy.init(args=args)
-
+    
     webui = RosWebUi()
 
     rclpy.spin(webui)

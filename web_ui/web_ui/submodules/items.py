@@ -71,15 +71,15 @@ class ButtonsGroup:
         "normal": "", # No extra class required
         "small": "btn-group-sm"
     }
-    def __init__(self, buttons: List[Button], direction: str="horizontal", size: str = "normal") -> None:
+    def __init__(self, buttons: List[Button], direction: str="horizontal", btn_size: str = "normal") -> None:
         self.buttons = buttons
-        self.size = size
+        self.btn_size = btn_size
 
         # Prepare for render
-        self.bs5_classes = ButtonsGroup.SIZE_MAP[self.size]
+        self.bs5_classes = ButtonsGroup.SIZE_MAP[self.btn_size]
 
     def json(self) -> dict:
-        pass
+        return ""
 
     def render(self) -> str:
         return render_template("button_group.html", buttons=[btn.json() for btn in self.buttons], extra_classes=self.bs5_classes)
@@ -94,14 +94,16 @@ class Input:
         self.type = type_
         self.placeholder = placeholder
         self.start_value = start_value
+        self.extra_classes = ""
 
     def json(self) -> dict:
         return {
             "name": self.name,
             "placeholder": self.placeholder,
             "start_value": self.start_value,
-            "type": self.type
-        } 
+            "type": self.type,
+            "extra_classes": self.extra_classes
+        }
 
     def render(self):
         return render_template("input.html", input=self.json())

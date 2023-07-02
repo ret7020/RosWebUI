@@ -1,6 +1,6 @@
 # Planned features
 Items planned:
-- [] Buttons
+- [x] Buttons
 - [] Inputs
 - [] Forms
 - [] Links
@@ -10,6 +10,11 @@ Items planned:
 - [] Image
 - [] Modals
 
+## UI
+- [ ] Block
+- [ ] Paddings
+- [ ] Margins
+
 ## Buttons ROS actions
 
 - [x] Toggle topic; send 0 || 1 to topic
@@ -17,9 +22,18 @@ Items planned:
 - [x] Send std_messages/String to topic (from input field)
 - [x] Send event to topic
 
-## Buttons UI actions
+## Buttons UI
 - [ ] Open modals
 - [ ] Bootstrap icons
+
+## Inputs
+- [x] Text
+- [ ] Number
+
+Optional
+- [ ] Email
+- [ ] Phone number
+
 
 ## Fetch Api interval based upd
 1. Topic published value
@@ -27,4 +41,8 @@ Items planned:
 ## Web Socket real - time info update
 
 - [x] Topic data
-- [x] - Assign topic data to simple text item
+- [x] Assign topic data to simple text item
+- [ ] Assign topic data to text with different stratrgies(Rewrite value, Counter like +=, Add text after)
+
+## Extra
+- [ ] Cache mode

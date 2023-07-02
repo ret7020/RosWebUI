@@ -17,7 +17,8 @@ def build(app: object, supervisor: object) -> None:
         Button("Changed type btn", type_="success"),
         Button("Outline style btn", style="outline"),
         Button(action="toggle", topic="/test_topic"),
-        Text("N/A", "rnd_string_topic")
+        Text("N/A", "rnd_string_topic"),
+        Input("send_string_input", "number", "123", 123)
     )
 
 
