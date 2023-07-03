@@ -2,6 +2,7 @@ from setuptools import setup
 
 package_name = 'web_ui'
 submodules = "web_ui/submodules"
+
 setup(
     name=package_name,
     version='0.0.1',

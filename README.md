@@ -34,15 +34,13 @@ Optional
 - [ ] Email
 - [ ] Phone number
 
-
-## Fetch Api interval based upd
-- [ ] Topic published value
-
 ## Web Socket real - time info update
 
 - [x] Topic data
+- [ ] Add support to assign multiple items to one topic update with optimization in Extra section
 - [x] Assign topic data to simple text item
 - [ ] Assign topic data to text with different stratrgies(Rewrite value, Counter like +=, Add text after)
 
 ## Extra
 - [ ] Cache mode
+- [ ] Optimize topic senders; When multiple items read same topic update events

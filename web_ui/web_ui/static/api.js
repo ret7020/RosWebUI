@@ -12,6 +12,21 @@ async function post(endpoint, data){
 const socket = new WebSocket('ws://' + location.host + '/ws');
 socket.addEventListener('message', ev => {
     let data = JSON.parse(ev.data);
-    if (data.item) document.getElementById(data.item).innerText = data.data
-
+    let text_item = document.getElementById(data.item);
+    if (data.item) {
+        switch (text_item.dataset.update_method){
+            case 'rewrite':
+                text_item.innerText = data.data
+                break;
+            case 'add':
+                if (!text_item.dataset["origin"]) text_item.dataset.origin = text_item.innerText;
+                text_item.innerText = text_item.dataset.origin + data.data
+                break;
+            case 'counter':
+                // !!! //
+                text_item.innerText = parseInt(text_item.innerText) + parseInt(data.data);
+                break;
+        }
+    }
+        
 });

@@ -1,0 +1,19 @@
+<table>
+    <thead>
+        <tr>
+            {% for header_item in table.header %}
+            <th scope="col">{{ header_item }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for index, row in table.rows %}
+        <tr>
+            <th scope="row">{{ index }}</th>
+            {% for value in row %}
+            <td>{value}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

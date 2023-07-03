@@ -1,7 +1,7 @@
 from flask import render_template
 from typing import List
 from .utils import random_string
-
+import logging
 
 class ClickHandler:
     def __init__(self, action: str="none", topic: str="none", activate_message: str = "1", input_name: str = "", toggle_display: List[str]=["ON", "OFF"], toggle_values: List[str]=["1", "0"]) -> None:
@@ -113,9 +113,13 @@ class Text:
     '''
     Simple text item; Maybe it will be deleted
     '''
-    def __init__(self, text: str, name: str=None) -> None:
+    def __init__(self, text: str, name: str=None, update_method: str="rewrite") -> None:
         self.text = text
         self.name = name
+        self.update_method = update_method
+        self.data_variables = {
+            "update_method": self.update_method
+        } # data entry name - value mapping
 
         # Generate random name; for passing to html id
         if not self.name:
@@ -123,13 +127,27 @@ class Text:
 
     
     def json(self) -> dict:
+        logging.error(' '.join([f"data-{name} '{self.data_variables[name]}'" for name in self.data_variables]))
         return {
             "name": self.name,
-            "text": self.text
+            "text": self.text,
+            "data_variables": ' '.join([f"data-{name}='{self.data_variables[name]}'" for name in self.data_variables])
         }
 
     def render(self) -> str:
         return render_template("text.html", text=self.json())
+
+class Table:
+    '''
+    Table item
+    '''
+    def __init__(self, header: List[str]) -> None:
+        '''
+        Header - list of table headers items
+        '''
+        self.header = header
+
+
 
 class Page:
     def __init__(self, title: str, path: str = "/") -> None:

@@ -1,5 +1,5 @@
 from .items import Page, Button, Input, Text
-from std_msgs.msg import String
+from std_msgs.msg import String, Int16
 
 
 def build(app: object, supervisor: object) -> None:
@@ -17,17 +17,18 @@ def build(app: object, supervisor: object) -> None:
         Button("Changed type btn", type_="success"),
         Button("Outline style btn", style="outline"),
         Button(action="toggle", topic="/test_topic"),
-        Text("N/A", "rnd_string_topic"),
+        Text("Data: ", "rnd_string_topic", update_method="add"),
+        Text(0, "rnd_int_topic", update_method="counter"),
+        # Text(0, "rnd_string_topic", update_method="Counter"),
         Input("send_string_input", "number", "123", 123)
     )
 
 
     # Interacting with supervisor
     supervisor.add([String, "/pub_rnd_str"])
+    supervisor.add([Int16, "/pub_rnd_int"])
     supervisor.assign_topic("rnd_string_topic", "/pub_rnd_str")
-
-
-
+    supervisor.assign_topic("rnd_int_topic", "/pub_rnd_int")
 
 
     # Add pages

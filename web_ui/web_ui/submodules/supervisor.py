@@ -18,6 +18,7 @@ class Supervisor:
         self.topic_to_item = {}
 
     def subscription_handler(self, msg: object, topic: str):
+        # logging.error(f"From {topic} with data: {msg.data}; all: {self.topics}")
         item_to_update = None
         if topic in self.topic_to_item:
             item_to_update = self.topic_to_item[topic]
@@ -27,7 +28,7 @@ class Supervisor:
     def subscribe(self, topic: List[tuple]):
         '''
         Topic object struct:
-        List[3] = [
+        List[2] = [
             'ROS type',
             'Topic path'
         ]

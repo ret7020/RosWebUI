@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String
+from std_msgs.msg import String, Int16
 from .submodules.serve import App
 from .submodules.supervisor import Supervisor
 from .submodules.ui import build as ui_build
@@ -12,9 +12,6 @@ import json
 from flask_sock import Sock
 import simple_websocket
 
-# from web_ui.web_ui.items import Page, ButtonsGroup, Button, Link
-
-
 class RosWebUi(Node):
     def __init__(self):
         super().__init__('webui')
@@ -25,8 +22,7 @@ class RosWebUi(Node):
         self.sock = Sock(self.app.flask_app)
         
         @self.sock.route("/ws")
-        def init_connection(sock):
-            self.get_logger().info("New websocket client connected")
+        def ws_connection_handler(sock):
             self.connected_clients.append(sock)
             while True:
                 data = sock.receive() # Read data from socket
@@ -48,17 +44,25 @@ class RosWebUi(Node):
         self.string_pub = self.create_publisher(String, 'pub_rnd_str', 1)
         self.timer = self.create_timer(0.5, self.timer_callback)
 
+        self.int_pub = self.create_publisher(Int16, 'pub_rnd_int', 1)
+        self.timer_ = self.create_timer(0.5, self.timer_1_calback)
+
     def timer_callback(self):
         msg = String()
         msg.data = ''.join(random.choice(string.ascii_letters) for i in range(10))
         self.string_pub.publish(msg)
+
+    def timer_1_calback(self):
+        msg = Int16()
+        msg.data = random.randint(1, 1000)
+        self.int_pub.publish(msg)
 
     
     def listener_callback(self, data):
         self.get_logger().info(f"{data.data}")
 
     def send_data_to_ws_clients(self, data, topic, item_name):
-        for client in self.connected_clients:
+        for index, client in enumerate(self.connected_clients):
             try:
                 client.send(json.dumps({
                     "data": data,
@@ -66,8 +70,8 @@ class RosWebUi(Node):
                     "item": item_name
                 }))
             except simple_websocket.ws.ConnectionClosed:
-                pass
-
+                del self.connected_clients[index] # Delete current websocket object, because client disconnected
+                # self.get_logger().info("Client disconnected!")
         
 def main(args=None):
     rclpy.init(args=args)
