@@ -18,7 +18,7 @@ def build(app: object, supervisor: object) -> None:
         Button("Outline style btn", style="outline"),
         Button(action="toggle", topic="/test_topic"),
         Text("Data: ", "rnd_string_topic", update_method="add"),
-        Text(0, "rnd_int_topic", update_method="counter"),
+        Text("Int: ", "rnd_int_topic", update_method="counter_add"),
         # Text(0, "rnd_string_topic", update_method="Counter"),
         Input("send_string_input", "number", "123", 123)
     )

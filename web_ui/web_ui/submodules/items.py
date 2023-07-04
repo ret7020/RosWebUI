@@ -64,6 +64,9 @@ class Button:
 class Link(Button):
     def __init__(self, text: str) -> None:
         super().__init__(text, "link", "")
+    
+    def render(self):
+        return super().render()
 
 class ButtonsGroup:
     SIZE_MAP = {
@@ -138,21 +141,29 @@ class Text:
         return render_template("text.html", text=self.json())
 
 class Table:
+    CONTAINER_SIZE_MAP = {
+        "small": "container-sm"
+    }
     '''
     Table item
     '''
-    def __init__(self, header: List[str]) -> None:
+    def __init__(self, header: List[str], rows) -> None:
         '''
         Header - list of table headers items
         '''
         self.header = header
+        self.rows = rows
 
 
 
 class Page:
-    def __init__(self, title: str, path: str = "/") -> None:
+    CONTAINER_SIZE_MAP = {
+        "small": "container-sm"
+    }
+    def __init__(self, title: str, path: str = "/", container_type: str = "small") -> None:
         self.path = path
         self.title = title
+        self.container_type = Page.CONTAINER_SIZE_MAP[container_type]
         self.items = []
         self.html = "NO ITEMS RENDERED"
 
