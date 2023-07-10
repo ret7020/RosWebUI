@@ -3,7 +3,9 @@ from .items import Page
 from std_msgs.msg import String
 
 class App:
-    def __init__(self, node) -> None:
+    def __init__(self, node, host: str, port: int) -> None:
+        self.flask_host = host
+        self.flask_port = port
         self.flask_app = Flask(__name__, template_folder="../templates", static_folder="../static")
         self.pages = []
         self.node = node
@@ -29,7 +31,7 @@ class App:
         self.flask_app.add_url_rule(page.path, page.path, page.render)
     
     def start(self) -> None:
-        self.flask_app.run()
+        self.flask_app.run(self.flask_host, self.flask_port)
 
 # @app.route("/")
 # def home():

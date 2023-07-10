@@ -1,0 +1,5 @@
+/web_ui:
+  ros__parameters:
+    http_port: 8080
+    http_host: "0.0.0.0"
+    ui_file_path: "/home/stephan/Progs/RosWeb/example.py"

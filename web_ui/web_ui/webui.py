@@ -3,7 +3,8 @@ from rclpy.node import Node
 from std_msgs.msg import String, Int16
 from .submodules.serve import App
 from .submodules.supervisor import Supervisor
-from .submodules.ui import build as ui_build
+# from .submodules.ui import build as ui_build
+from importlib.machinery import SourceFileLoader
 import threading
 import random
 import string
@@ -15,8 +16,12 @@ import simple_websocket
 class RosWebUi(Node):
     def __init__(self):
         super().__init__('webui')
-        self.get_logger().info(f"{self}")
-        self.app = App(self)
+
+        self.declare_parameter("http_host", "0.0.0.0")
+        self.declare_parameter("http_port", 8080)
+        self.declare_parameter("ui_file_path", "~")
+
+        self.app = App(self, self.get_parameter("http_host").value, self.get_parameter("http_port").value)
         self.connected_clients = []
         self.supervisor = Supervisor(self, self.send_data_to_ws_clients)
         self.sock = Sock(self.app.flask_app)
@@ -26,8 +31,10 @@ class RosWebUi(Node):
             self.connected_clients.append(sock)
             while True:
                 data = sock.receive() # Read data from socket
-                        
-        ui_build(self.app, self.supervisor)
+
+
+        self.ui_build_module = SourceFileLoader("example.py", self.get_parameter("ui_file_path").value).load_module()
+        self.ui_build_module.build(self.app, self.supervisor)
 
         threading.Thread(target=self.app.start).start()
 

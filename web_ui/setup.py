@@ -7,7 +7,7 @@ setup(
     name=package_name,
     version='0.0.1',
     packages=[package_name, submodules],
-    package_data={package_name: ['templates/*.html', 'static/ros_wrapper.js', 'static/api.js']},
+    package_data={package_name: ['templates/*.html', 'static/*.js', 'static/*.css']},
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
